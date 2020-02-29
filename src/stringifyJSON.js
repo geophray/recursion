@@ -17,24 +17,28 @@ var stringifyJSON = function(obj) {
     stringified += obj;
   } else if (objType === "object") {
     // If obj is of type object
-    // Check if it is an array
+    // Check if it is an Array
     if (obj instanceof Array) {
-      // Create substring for stringifying the elements of the array
-      var substring = "[";
+      // Create stringyArr for holding stringified elements of obj
+      var stringyArr = [];
       for (let i = 0; i < obj.length; i++) {
-        // Add each element to the string
-        substring += stringifyJSON(obj[i]);
+        // Add each stringified element to stringyArr
+        stringyArr.push(stringifyJSON(obj[i]));
       }
-      substring += "]";
+      // Convert stringyArr to a string
+      var substring = "[" + stringyArr.join(",") + "]";
+      // Add substring to stringified
       stringified += substring;
     } else if (obj instanceof Object) {
-      var substring = "[";
+      // If obj is an Object
+      var stringyArr = [];
       for (prop in obj) {
         let property = stringifyJSON(prop);
         let value = stringifyJSON(obj[prop]);
-        substring += property + ": " + value + ";"
+        stringyArr.push(property + ":" + value);
       }
-      substring += "]";
+      var substring = "{" + stringyArr.join(",") + "}";
+      stringified += substring;
     }
   }
   return stringified;
