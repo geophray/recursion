@@ -33,13 +33,19 @@ var stringifyJSON = function(obj) {
       // If obj is an Object
       var stringyArr = [];
       for (prop in obj) {
-        let property = stringifyJSON(prop);
-        let value = stringifyJSON(obj[prop]);
-        stringyArr.push(property + ":" + value);
+        if(typeof obj[prop] !== "function" && typeof obj[prop] !== "undefined") {
+          let property = stringifyJSON(prop);
+          let value = stringifyJSON(obj[prop]);
+          stringyArr.push(property + ":" + value);
+        }
       }
       var substring = "{" + stringyArr.join(",") + "}";
       stringified += substring;
     }
+  } else if (objType === "undefined") {
+    stringified += '';
+  } else if (objType === "function") {
+    stringified += '';
   }
   return stringified;
 };
